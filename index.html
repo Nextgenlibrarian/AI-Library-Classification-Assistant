@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>NextGen Librarian | AI Classification Assistant</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- NextGen Librarian Header -->
+    <header class="brand-header">
+
+        <img src="images/logo.png"
+             alt="NextGen Librarian Logo"
+             class="logo">
+
+        <h1>NextGen Librarian</h1>
+
+        <p>Empowering Librarians with Practical AI & Technology.</p>
+
+    </header>
+
+
+    <!-- Main Application -->
+    <main class="container">
+
+        <h2>📚 AI Library Classification Assistant</h2>
+
+        <p>
+            Enter the book details below to get an AI-assisted classification.
+        </p>
+
+
+        <!-- Book Title -->
+        <label for="title">Book Title *</label>
+
+        <input
+            type="text"
+            id="title"
+            placeholder="Enter book title"
+            required
+        >
+
+
+        <!-- Author -->
+        <label for="author">Author *</label>
+
+        <input
+            type="text"
+            id="author"
+            placeholder="Enter author name"
+            required
+        >
+
+
+        <!-- ISBN -->
+        <label for="isbn">ISBN (Optional)</label>
+
+        <input
+            type="text"
+            id="isbn"
+            placeholder="Enter ISBN"
+        >
+
+
+        <!-- Classification Button -->
+        <button id="classifyButton">
+            🔍 Generate Classification
+        </button>
+
+
+        <!-- Results -->
+        <div id="result"></div>
+
+    </main>
+
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+
+</body>
+
+</html>
