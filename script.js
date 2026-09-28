@@ -1,6 +1,7 @@
 document
   .getElementById("classifyButton")
   .addEventListener("click", async function () {
+
     const title = document.getElementById("title").value.trim();
     const author = document.getElementById("author").value.trim();
     const isbn = document.getElementById("isbn").value.trim();
@@ -27,17 +28,23 @@ document
     button.innerText = "⏳ Processing...";
 
     try {
-      const response = await fetch("http://localhost:3000/classify", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          title: title,
-          author: author,
-          isbn: isbn
-        })
-      });
+
+      const response = await fetch(
+        "https://ai-library-classification-assistant.onrender.com/classify",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json"
+          },
+
+          body: JSON.stringify({
+            title: title,
+            author: author,
+            isbn: isbn
+          })
+        }
+      );
 
       const responseText = await response.text();
 
@@ -63,12 +70,13 @@ document
 
       // Clean the AI response
       classification = classification
-  .replace(/\\n/g, "\n")
-  .replace(/\r/g, "")
-  .replace(/\*\*/g, "")
-  .replace(/^\s*\*\s*/gm, "")
-  .trim();
+        .replace(/\\n/g, "\n")
+        .replace(/\r/g, "")
+        .replace(/\*\*/g, "")
+        .replace(/^\s*\*\s*/gm, "")
+        .trim();
 
+      // Extract classification information
       const ddcNumber = extractValue(classification, [
         "DDC Number",
         "DDC Classification Number"
@@ -128,6 +136,7 @@ document
       `;
 
     } catch (error) {
+
       console.error("FULL ERROR:", error);
 
       resultDiv.innerHTML = `
@@ -135,22 +144,31 @@ document
           ❌ ${escapeHTML(error.message)}
         </p>
       `;
+
     } finally {
+
       button.disabled = false;
       button.innerText = "🔍 Generate Classification";
+
     }
+
   });
 
 
 // Extract information from the AI response
 function extractValue(text, labels) {
+
   for (const label of labels) {
-    const escapedLabel = label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+    const escapedLabel = label.replace(
+      /[.*+?^${}()|[\]\\]/g,
+      "\\$&"
+    );
 
     const pattern = new RegExp(
       "(?:^|\\n)\\s*" +
-        escapedLabel +
-        "\\s*:\\s*([\\s\\S]*?)(?=\\n\\s*[A-Za-z][A-Za-z ]*\\s*:|$)",
+      escapedLabel +
+      "\\s*:\\s*([\\s\\S]*?)(?=\\n\\s*[A-Za-z][A-Za-z ]*\\s*:|$)",
       "i"
     );
 
@@ -159,6 +177,7 @@ function extractValue(text, labels) {
     if (match && match[1]) {
       return match[1].trim();
     }
+
   }
 
   return "";
@@ -167,10 +186,12 @@ function extractValue(text, labels) {
 
 // Prevent HTML injection
 function escapeHTML(value) {
+
   return String(value)
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
+
 }
