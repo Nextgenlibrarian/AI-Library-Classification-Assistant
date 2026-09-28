@@ -9,7 +9,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const PORT = 3000;
+// Render provides the PORT environment variable
+const PORT = process.env.PORT || 3000;
 
 // Test server
 app.get("/", (req, res) => {
@@ -80,17 +81,19 @@ Important instructions:
             }
         );
 
-        const data = await response.json();
+        // Read response only once
+        const responseText = await response.text();
 
-       if (!response.ok) {
-  const errorText = await response.text();
+        if (!response.ok) {
 
-  console.error("Gemini API Error:", errorText);
+            console.error("Gemini API Error:", responseText);
 
-  return res.status(response.status).json({
-    error: "Gemini API request failed. Check the server terminal."
-  });
-}
+            return res.status(response.status).json({
+                error: "Gemini API request failed. Check the server logs."
+            });
+        }
+
+        const data = JSON.parse(responseText);
 
         const resultText =
             data.candidates?.[0]?.content?.parts?.[0]?.text;
@@ -123,6 +126,7 @@ Important instructions:
 
 });
 
-app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
+// Start server
+app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Server running on port ${PORT}`);
 });
