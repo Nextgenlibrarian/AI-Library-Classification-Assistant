@@ -30,7 +30,7 @@ document
     try {
 
       const response = await fetch(
-        "https://ai-library-classification-assistant.onrender.com/classify",
+        "https://ai-library-classification-backend.onrender.com/classify",
         {
           method: "POST",
 
